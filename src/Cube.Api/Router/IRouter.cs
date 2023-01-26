@@ -5,5 +5,5 @@ namespace Cube.Api.Router;
 
 public interface IRouter
 {
-    public IMessageResponse DispatchAsync(IMessageRequest message);
+    public IMessageResponse Dispatch(IMessageRequest message);
 }
