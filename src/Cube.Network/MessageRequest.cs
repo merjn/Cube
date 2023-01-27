@@ -6,27 +6,17 @@ namespace Cube.Network;
 
 public class MessageRequest : IMessageRequest
 {
-    private short _header;
-    private IByteBuffer _buf;
-
-    public MessageRequest(short header, IByteBuffer buffer)
-    {
-        _header = header;
-        _buf = buffer;
-    }
+    public short Header { get; set; }
+    
+    public IByteBuffer Buffer { get; set; }
 
     public short GetHeader()
     {
-        return _header;
-    }
-    
-    public IByteBuffer GetBuffer()
-    {
-        return _buf;
+        return Header;
     }
 
     public short ReadShort()
     {
-        return _buf.ReadShort();
+        return Buffer.ReadShort();
     }
 }

@@ -7,11 +7,13 @@ namespace Cube.Network.Handlers;
 public class GameMessageHandler : SimpleChannelInboundHandler<MessageRequest>
 {
     private readonly IRouter _router;
+    private readonly MessageRequestPool _pool;
     private readonly ILogger<GameMessageHandler> _logger;
 
-    public GameMessageHandler(IRouter router, ILogger<GameMessageHandler> logger)
+    public GameMessageHandler(IRouter router, MessageRequestPool pool, ILogger<GameMessageHandler> logger)
     {
         _router = router;
+        _pool = pool;
         _logger = logger;
     }
     
@@ -39,6 +41,7 @@ public class GameMessageHandler : SimpleChannelInboundHandler<MessageRequest>
         finally
         {
             msg.GetBuffer().Release();
+            _pool.Return(msg);
         }
     }
 }
