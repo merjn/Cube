@@ -39,7 +39,7 @@ public class ServerBooter
 
             bootstrap.Group(bossGroup, workerGroup);
             bootstrap.Channel<TcpServerSocketChannel>();
-            bootstrap.Option(ChannelOption.SoBacklog, 100);
+            bootstrap.Option(ChannelOption.SoBacklog, _serverConfig.BacklogQueue);
             bootstrap.ChildHandler(new ActionChannelInitializer<IChannel>(_channelInitializer.InitChannel));
             
             // Bind the server to the specified port.
