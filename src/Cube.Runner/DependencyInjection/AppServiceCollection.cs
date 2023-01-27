@@ -1,5 +1,6 @@
 using Cube.Api.Network;
 using Cube.Network;
+using Cube.Network.Channel;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cube.Runner.DependencyInjection;
@@ -13,14 +14,22 @@ static class AppServiceCollection
     /// <exception cref="NotImplementedException"></exception>
     public static void Load(IServiceCollection services)
     {
+        LoadRouter(services);
         LoadNetwork(services);
+    }
+
+    private static void LoadRouter(IServiceCollection services)
+    {
+        
     }
     
     private static void LoadNetwork(IServiceCollection services)
     {
-        // TODO: Get config data from config file
-        services.AddSingleton(new ServerConfig());
-        services.AddScoped<ServerBootstrapFactory>();
-        services.AddScoped<IServerRunner, ServerRunner>();
+        // Create a new instance of ChannelInitializer.
+        //
+        // // TODO: Get config data from config file
+        // services.AddSingleton(new ServerConfig());
+        // services.AddScoped<ServerBooter>();
+        // services.AddScoped<IServerRunner, ServerRunner>();
     }
 }

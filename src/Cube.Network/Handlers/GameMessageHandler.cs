@@ -1,10 +1,8 @@
-using System.Buffers;
-using Cube.Api.Network.Communication;
 using Cube.Api.Router;
 using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Logging;
 
-namespace Cube.Network;
+namespace Cube.Network.Handlers;
 
 public class GameMessageHandler : SimpleChannelInboundHandler<MessageRequest>
 {
@@ -24,16 +22,23 @@ public class GameMessageHandler : SimpleChannelInboundHandler<MessageRequest>
     /// <param name="msg"></param>
     protected override void ChannelRead0(IChannelHandlerContext ctx, MessageRequest msg)
     {
-        _logger.Log(LogLevel.Debug, "Received message from {0}", ctx.Channel.RemoteAddress);
-
-        var response = _router.Dispatch(msg);
-
-        var serverMessages = response.GetMessages();
-        for (var i = 0; i < serverMessages.Count; i++)
+        try
         {
-            // Send it synchronously, because we don't want to send multiple messages at once. The game client requires
-            // a packet to be fully received before it can process the next one.
-            ctx.WriteAndFlushAsync(serverMessages[i]);
+            _logger.Log(LogLevel.Debug, "Received message from {0}", ctx.Channel.RemoteAddress);
+
+            var response = _router.Dispatch(msg);
+
+            var serverMessages = response.GetMessages();
+            for (var i = 0; i < serverMessages.Count; i++)
+            {
+                // Send it synchronously, because we don't want to send multiple messages at once. The game client requires
+                // a packet to be fully received before it can process the next one.
+                ctx.WriteAndFlushAsync(serverMessages[i]);
+            }
+        }
+        finally
+        {
+            msg.GetBuffer().Release();
         }
     }
 }

@@ -19,6 +19,11 @@ public class MessageRequest : IMessageRequest
     {
         return _header;
     }
+    
+    public IByteBuffer GetBuffer()
+    {
+        return _buf;
+    }
 
     public short ReadShort()
     {

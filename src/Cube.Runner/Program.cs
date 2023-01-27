@@ -20,7 +20,7 @@ class Program
 
     private static readonly String _developers = "Merijn#5647";
     
-    static void Main(string[] args)
+    static Task Main(string[] args)
     {
         Console.WriteLine(_asciiArt);
         Console.WriteLine($"Cube Emulator is written by {_developers}");
@@ -32,6 +32,8 @@ class Program
         
         // Start the server
         serverRunner.StartAsync().Wait();
+        
+        return Task.CompletedTask;
     }
 
     static IHostBuilder CreateHostBuilder(string[] args) =>
