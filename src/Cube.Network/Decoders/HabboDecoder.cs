@@ -15,8 +15,9 @@ public class HabboDecoder : ByteToMessageDecoder
     
     protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)
     {
+        Console.WriteLine("ewa");
         var header = input.ReadShort();
         
-        output.Add(_pool.Rent(header, input));
+        output.Add(_pool.Get(header, input));
     }
 }

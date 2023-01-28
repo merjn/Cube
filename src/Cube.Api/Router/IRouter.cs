@@ -1,9 +1,11 @@
 using Cube.Api.Network;
 using Cube.Api.Network.Communication;
+using Cube.Api.Router.Exceptions;
+using LanguageExt;
 
 namespace Cube.Api.Router;
 
 public interface IRouter
 {
-    public IMessageResponse Dispatch(IMessageRequest message);
+    public Either<RouteNotFoundException, IMessageResponse> Dispatch(IMessageRequest message);
 }

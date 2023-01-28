@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Cube.Api\Cube.Api.csproj" />
     <ProjectReference Include="..\Cube.Network\Cube.Network.csproj" />
+    <ProjectReference Include="..\Cube.Router\Cube.Router.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-namespace Cube.Router.Exceptions;
+namespace Cube.Api.Router.Exceptions;
 
 public class RouteNotFoundException : Exception
 {

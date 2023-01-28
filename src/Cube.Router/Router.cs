@@ -1,6 +1,7 @@
 ﻿using Cube.Api.Network.Communication;
 using Cube.Api.Router;
-using Cube.Router.Exceptions;
+using Cube.Api.Router.Exceptions;
+using LanguageExt;
 
 namespace Cube.Router;
 
@@ -15,11 +16,11 @@ public class Router : IRouter
         _middlewareDispatcherFactory = middlewareDispatcherFactory;
     }
     
-    public IMessageResponse Dispatch(IMessageRequest message)
+    public Either<RouteNotFoundException, IMessageResponse> Dispatch(IMessageRequest message)
     {
         if (!_routeRepository.HasRoute(message))
         {
-            throw new RouteNotFoundException(message.GetHeader());
+            return Either<RouteNotFoundException, IMessageResponse>.Left(new RouteNotFoundException(message.GetHeader()));
         }
         
         var route = _routeRepository.GetRoute(message.GetHeader());
@@ -29,6 +30,6 @@ public class Router : IRouter
 
         var middlewareExecutor = _middlewareDispatcherFactory.Create(middlewares);
         
-        return middlewareExecutor.Handle(message);
+        return Either<RouteNotFoundException, IMessageResponse>.Right(middlewareExecutor.Handle(message));
     }
 }
